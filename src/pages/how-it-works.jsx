@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <div>
       <Navbar6 />
-      <Header64 />
+      {/* <Header64 /> */}
       <Layout399 />
       <Layout369 />
       <Faq3 />

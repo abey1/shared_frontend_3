@@ -101,7 +101,7 @@ export function Navbar6() {
             </NavbarLink>
             <NavbarLink
               onNavigate={closeMenus}
-              to="/about-company"
+              to="/about-us"
               className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
             >
               About us
@@ -388,7 +388,9 @@ export function Navbar6() {
                             </div>
                             <div className="flex flex-col items-start justify-center">
                               <h5 className="font-semibold">Get started</h5>
-                              <p className="hidden text-sm md:block">Rentals overview</p>
+                              <p className="hidden text-sm md:block">
+                                Rentals overview
+                              </p>
                             </div>
                           </NavbarLink>
                         </div>
@@ -596,7 +598,9 @@ export function Navbar6() {
                       <div className="flex w-full flex-col lg:flex-row">
                         <div className="grid flex-1 auto-cols-fr grid-cols-1 gap-x-8 gap-y-6 py-4 md:grid-cols-3 md:gap-y-0 md:py-8 lg:pr-8">
                           <div className="grid auto-cols-fr grid-cols-1 gap-y-2 md:gap-y-4">
-                            <h4 className="text-sm font-semibold leading-[1.3]">For users</h4>
+                            <h4 className="text-sm font-semibold leading-[1.3]">
+                              For users
+                            </h4>
                             <NavbarLink
                               onNavigate={closeMenus}
                               to="/how-it-works"
@@ -663,7 +667,9 @@ export function Navbar6() {
                             </NavbarLink>
                           </div>
                           <div className="grid auto-cols-fr grid-cols-1 gap-y-2 md:gap-y-4">
-                            <h4 className="text-sm font-semibold leading-[1.3]">For companies</h4>
+                            <h4 className="text-sm font-semibold leading-[1.3]">
+                              For companies
+                            </h4>
                             <NavbarLink
                               onNavigate={closeMenus}
                               to="/contact-company"
@@ -677,7 +683,9 @@ export function Navbar6() {
                                 />
                               </div>
                               <div className="flex flex-col items-start justify-center">
-                                <h5 className="font-semibold">Partner with us</h5>
+                                <h5 className="font-semibold">
+                                  Partner with us
+                                </h5>
                               </div>
                             </NavbarLink>
                             <NavbarLink
@@ -709,7 +717,9 @@ export function Navbar6() {
                                 />
                               </div>
                               <div className="flex flex-col items-start justify-center">
-                                <h5 className="font-semibold">Rental history</h5>
+                                <h5 className="font-semibold">
+                                  Rental history
+                                </h5>
                               </div>
                             </NavbarLink>
                             <NavbarLink
@@ -730,7 +740,9 @@ export function Navbar6() {
                             </NavbarLink>
                           </div>
                           <div className="grid auto-cols-fr grid-cols-1 gap-y-2 md:gap-y-4">
-                            <h4 className="text-sm font-semibold leading-[1.3]">More</h4>
+                            <h4 className="text-sm font-semibold leading-[1.3]">
+                              More
+                            </h4>
                             <NavbarLink
                               onNavigate={closeMenus}
                               to="/about-company"
@@ -816,7 +828,9 @@ export function Navbar6() {
                                   />
                                 </div>
                                 <div className="mt-2 flex max-w-[18rem] flex-col justify-start md:mt-0">
-                                  <h5 className="mb-1 font-semibold">Stories</h5>
+                                  <h5 className="mb-1 font-semibold">
+                                    Stories
+                                  </h5>
                                   <p className="text-sm">Hear from renters</p>
                                 </div>
                               </NavbarLink>
