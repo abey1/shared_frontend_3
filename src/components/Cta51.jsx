@@ -5,7 +5,7 @@ export function Cta51({ partnerPath = "/for-companies" } = {}) {
   const navigate = useNavigate();
 
   return (
-    <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
+    <section id="cta51" className="px-[5%] py-16 md:py-24 lg:py-28">
       <div className="container">
         <div className="flex flex-col items-center border border-border-primary p-8 md:p-12 lg:p-16">
           <div className="max-w-lg text-center">

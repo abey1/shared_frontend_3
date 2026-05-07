@@ -80,7 +80,7 @@ const useCarousel = () => {
 export function ProductHeader8() {
   const useActive = useCarousel();
   return (
-    <header id="relume" className="px-[5%] py-12 md:py-14 lg:py-28">
+    <header id="productheader8" className="px-[5%] py-12 md:py-14 lg:py-28">
       <div className="container">
         <div className="grid grid-cols-1 gap-y-8 md:gap-y-10 lg:grid-cols-[1fr_1.25fr_1fr] lg:items-center lg:gap-x-16">
           <div>

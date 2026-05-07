@@ -6,7 +6,7 @@ import { Portfolio13 } from "../components/Portfolio13";
 import { Cta51 } from "../components/Cta51";
 import { Footer1 } from "../components/Footer1";
 
-export default function Page() {
+export default function Categories() {
   return (
     <div>
       <Navbar6 />

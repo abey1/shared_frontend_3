@@ -6,7 +6,7 @@ import { RxChevronRight } from "react-icons/rx";
 
 export function Logo4() {
   return (
-    <section id="relume" className="px-[5%] py-12 md:py-16 lg:py-20">
+    <section id="logo4" className="px-[5%] py-12 md:py-16 lg:py-20">
       <div className="container">
         <div className="grid grid-cols-1 gap-y-12 md:grid-cols-2 md:items-center md:gap-x-12 lg:gap-x-20">
           <div>

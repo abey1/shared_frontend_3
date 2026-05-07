@@ -7,7 +7,7 @@ import { Testimonial42 } from "../components/Testimonial42";
 import { Faq3 } from "../components/Faq3";
 import { Footer1 } from "../components/Footer1";
 
-export default function Page() {
+export default function Payment() {
   return (
     <div>
       <Navbar6 />

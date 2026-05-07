@@ -12,7 +12,7 @@ import { BiCheck } from "react-icons/bi";
 
 export function Pricing8() {
   return (
-    <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
+    <section id="pricing8" className="px-[5%] py-16 md:py-24 lg:py-28">
       <div className="container max-w-lg">
         <div className="mx-auto mb-8 max-w-lg text-center md:mb-10 lg:mb-12">
           <p className="mb-3 font-semibold md:mb-4">Plans</p>

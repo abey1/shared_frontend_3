@@ -9,14 +9,16 @@ import { Logo4_1 } from "../components/Logo4_1";
 import { Testimonial43 } from "../components/Testimonial43";
 import { Cta51 } from "../components/Cta51";
 import { Footer1 } from "../components/Footer1";
+import { Contact9 } from "../components/Contact9";
 
-export default function Page() {
+export default function AboutUs() {
   return (
     <div>
       <Navbar6 />
       <Header64 />
       <Layout134 />
       <Timeline12 />
+      <Contact9 />
       <Team5 />
       <Logo4 />
       <Logo4_1 />

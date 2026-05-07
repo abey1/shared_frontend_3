@@ -40,10 +40,10 @@ const useCarousel = () => {
 };
 
 export function Testimonial42() {
-  const useCarousel = useCarousel();
+  const carousel = useCarousel();
   return (
     <section
-      id="relume"
+      id="testimonial42"
       className="overflow-hidden px-[5%] py-16 md:py-24 lg:py-28"
     >
       <div className="container">
@@ -55,7 +55,7 @@ export function Testimonial42() {
             <p className="md:text-md">Renters trust this equipment</p>
           </div>
           <Carousel
-            setApi={useCarousel.setApi}
+            setApi={carousel.setApi}
             opts={{ loop: true, align: "start" }}
             className="overflow-hidden"
           >
@@ -260,32 +260,32 @@ export function Testimonial42() {
             <div className="mt-12 flex items-center justify-between">
               <div className="mt-5 flex w-full items-start justify-start">
                 <button
-                  onClick={useCarousel.handleDotClick(0)}
-                  className={useCarousel.dotClassName(0)}
+                  onClick={carousel.handleDotClick(0)}
+                  className={carousel.dotClassName(0)}
                 />
                 <button
-                  onClick={useCarousel.handleDotClick(1)}
-                  className={useCarousel.dotClassName(1)}
+                  onClick={carousel.handleDotClick(1)}
+                  className={carousel.dotClassName(1)}
                 />
                 <button
-                  onClick={useCarousel.handleDotClick(2)}
-                  className={useCarousel.dotClassName(2)}
+                  onClick={carousel.handleDotClick(2)}
+                  className={carousel.dotClassName(2)}
                 />
                 <button
-                  onClick={useCarousel.handleDotClick(3)}
-                  className={useCarousel.dotClassName(3)}
+                  onClick={carousel.handleDotClick(3)}
+                  className={carousel.dotClassName(3)}
                 />
                 <button
-                  onClick={useCarousel.handleDotClick(4)}
-                  className={useCarousel.dotClassName(4)}
+                  onClick={carousel.handleDotClick(4)}
+                  className={carousel.dotClassName(4)}
                 />
                 <button
-                  onClick={useCarousel.handleDotClick(5)}
-                  className={useCarousel.dotClassName(5)}
+                  onClick={carousel.handleDotClick(5)}
+                  className={carousel.dotClassName(5)}
                 />
                 <button
-                  onClick={useCarousel.handleDotClick(6)}
-                  className={useCarousel.dotClassName(6)}
+                  onClick={carousel.handleDotClick(6)}
+                  className={carousel.dotClassName(6)}
                 />
               </div>
               <div className="flex items-end justify-end gap-2 md:gap-4">

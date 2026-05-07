@@ -9,7 +9,7 @@ import { Faq3 } from "../components/Faq3";
 import { Gallery10 } from "../components/Gallery10";
 import { Footer1 } from "../components/Footer1";
 
-export default function Page() {
+export default function ToolDetail() {
   return (
     <div>
       <Navbar6 />

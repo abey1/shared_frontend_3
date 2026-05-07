@@ -25,7 +25,7 @@ const Circle = () => {
 
 export function Timeline12() {
   return (
-    <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
+    <section id="timeline12" className="px-[5%] py-16 md:py-24 lg:py-28">
       <div className="container">
         <div className="flex flex-col items-center">
           <div className="mb-12 text-center md:mb-18 lg:mb-20">

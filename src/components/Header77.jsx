@@ -10,7 +10,7 @@ export function Header77() {
 
   return (
     <section
-      id="relume"
+      id="header77"
       className="grid grid-cols-1 items-center gap-y-16 pt-16 md:pt-24 lg:grid-cols-2 lg:pt-0"
     >
       <div className="mx-[5%] sm:max-w-md md:justify-self-start lg:ml-[5vw] lg:mr-20 lg:justify-self-end">

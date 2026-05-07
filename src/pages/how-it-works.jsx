@@ -1,4 +1,5 @@
 import React from "react";
+
 import { Navbar6 } from "../components/Navbar6";
 import { Header64 } from "../components/Header64";
 import { Layout399 } from "../components/Layout399";
@@ -7,7 +8,7 @@ import { Faq3 } from "../components/Faq3";
 import { Cta51 } from "../components/Cta51";
 import { Footer1 } from "../components/Footer1";
 
-export default function Page() {
+export default function HowItWorks() {
   return (
     <div>
       <Navbar6 />

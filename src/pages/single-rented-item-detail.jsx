@@ -5,7 +5,7 @@ import { Timeline20 } from "../components/Timeline20";
 import { Cta51 } from "../components/Cta51";
 import { Footer1 } from "../components/Footer1";
 
-export default function Page() {
+export default function SingleRentedItemDetail() {
   return (
     <div>
       <Navbar6 />

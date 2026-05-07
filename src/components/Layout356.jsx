@@ -10,7 +10,7 @@ export function Layout356() {
   const navigate = useNavigate();
 
   return (
-    <section id="relume">
+    <section id="layout356">
       <div className="sticky top-0">
         <Fragment>
           <div className="relative -top-32 h-0" />

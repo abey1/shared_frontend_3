@@ -6,7 +6,7 @@ import { RxChevronRight } from "react-icons/rx";
 
 export function Layout134() {
   return (
-    <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
+    <section id="layout134" className="px-[5%] py-16 md:py-24 lg:py-28">
       <div className="container max-w-lg text-center">
         <p className="mb-3 font-semibold md:mb-4">Origin</p>
         <h2 className="mb-5 text-5xl font-bold md:mb-6 md:text-7xl lg:text-8xl">

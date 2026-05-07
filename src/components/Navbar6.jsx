@@ -66,8 +66,8 @@ export function Navbar6() {
 
   return (
     <section
-      id="relume"
-      className="relative z-[999] flex min-h-16 w-full items-center border-b border-border-primary bg-background-primary px-[5%] md:min-h-18"
+      id="navbar6"
+      className="fixed z-[999] flex min-h-16 w-full items-center border-b border-border-primary bg-background-primary px-[5%] md:min-h-18"
     >
       <div className="mx-auto flex size-full max-w-full items-center justify-between">
         <NavbarLink onNavigate={closeMenus} to="/">
@@ -84,6 +84,13 @@ export function Navbar6() {
               className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
             >
               Browse
+            </NavbarLink>
+            <NavbarLink
+              onNavigate={closeMenus}
+              to="/for-companies"
+              className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
+            >
+              Companies
             </NavbarLink>
             <NavbarLink
               onNavigate={closeMenus}
@@ -155,7 +162,7 @@ export function Navbar6() {
                           </h4>
                           <NavbarLink
                             onNavigate={closeMenus}
-                            to="/how-it-works"
+                            to="/how-it-works#layout399"
                             className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                           >
                             <div className="flex size-6 flex-col items-center justify-center">
@@ -174,7 +181,7 @@ export function Navbar6() {
                           </NavbarLink>
                           <NavbarLink
                             onNavigate={closeMenus}
-                            to="/all-tools"
+                            to="/all-tools#filters5"
                             className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                           >
                             <div className="flex size-6 flex-col items-center justify-center">
@@ -186,7 +193,7 @@ export function Navbar6() {
                             </div>
                             <div className="flex flex-col items-start justify-center">
                               <h5 className="font-semibold">
-                                See our rental rates and plans
+                                See all products
                               </h5>
                               <p className="hidden text-sm md:block">
                                 Browse tools and pricing
@@ -195,7 +202,7 @@ export function Navbar6() {
                           </NavbarLink>
                           <NavbarLink
                             onNavigate={closeMenus}
-                            to="/faqs"
+                            to="/faqs#faq3"
                             className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                           >
                             <div className="flex size-6 flex-col items-center justify-center">
@@ -214,7 +221,7 @@ export function Navbar6() {
                           </NavbarLink>
                           <NavbarLink
                             onNavigate={closeMenus}
-                            to="/contact-company"
+                            to="/about-us#contact9"
                             className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                           >
                             <div className="flex size-6 flex-col items-center justify-center">
@@ -238,7 +245,7 @@ export function Navbar6() {
                           </h4>
                           <NavbarLink
                             onNavigate={closeMenus}
-                            to="/contact-company"
+                            to="/about-us#contact9"
                             className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                           >
                             <div className="flex size-6 flex-col items-center justify-center">
@@ -257,7 +264,7 @@ export function Navbar6() {
                           </NavbarLink>
                           <NavbarLink
                             onNavigate={closeMenus}
-                            to="/testimonials"
+                            to="/about-us#logo4"
                             className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                           >
                             <div className="flex size-6 flex-col items-center justify-center">
@@ -274,28 +281,10 @@ export function Navbar6() {
                               </p>
                             </div>
                           </NavbarLink>
+
                           <NavbarLink
                             onNavigate={closeMenus}
-                            to="/rental-history"
-                            className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
-                          >
-                            <div className="flex size-6 flex-col items-center justify-center">
-                              <img
-                                src="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
-                                alt="Icon 7"
-                                className="shrink-0"
-                              />
-                            </div>
-                            <div className="flex flex-col items-start justify-center">
-                              <h5 className="font-semibold">Case studies</h5>
-                              <p className="hidden text-sm md:block">
-                                See real results from our platform
-                              </p>
-                            </div>
-                          </NavbarLink>
-                          <NavbarLink
-                            onNavigate={closeMenus}
-                            to="/categories"
+                            to="/blog"
                             className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                           >
                             <div className="flex size-6 flex-col items-center justify-center">
@@ -319,7 +308,7 @@ export function Navbar6() {
                           </h4>
                           <NavbarLink
                             onNavigate={closeMenus}
-                            to="/about-company"
+                            to="/about-us#timeline12"
                             className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                           >
                             <div className="flex size-6 flex-col items-center justify-center">
@@ -338,7 +327,7 @@ export function Navbar6() {
                           </NavbarLink>
                           <NavbarLink
                             onNavigate={closeMenus}
-                            to="/all-tools"
+                            to="/featured"
                             className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                           >
                             <div className="flex size-6 flex-col items-center justify-center">
@@ -352,25 +341,6 @@ export function Navbar6() {
                               <h5 className="font-semibold">Featured</h5>
                               <p className="hidden text-sm md:block">
                                 The right tool for every job
-                              </p>
-                            </div>
-                          </NavbarLink>
-                          <NavbarLink
-                            onNavigate={closeMenus}
-                            to="/faqs"
-                            className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
-                          >
-                            <div className="flex size-6 flex-col items-center justify-center">
-                              <img
-                                src="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
-                                alt="Icon 11"
-                                className="shrink-0"
-                              />
-                            </div>
-                            <div className="flex flex-col items-start justify-center">
-                              <h5 className="font-semibold">Read more</h5>
-                              <p className="hidden text-sm md:block">
-                                View all articles
                               </p>
                             </div>
                           </NavbarLink>
@@ -403,7 +373,7 @@ export function Navbar6() {
                           <div className="max-w-none grid w-full grid-cols-1 grid-rows-[auto_auto_auto_auto] items-start gap-y-2 md:block">
                             <NavbarLink
                               onNavigate={closeMenus}
-                              to="/testimonials"
+                              to="/blog-article-detail"
                               className="flex flex-col py-2"
                             >
                               <div className="relative mb-3 w-full overflow-hidden pt-[56.25%]">
@@ -435,7 +405,7 @@ export function Navbar6() {
                               size="link"
                               iconRight={<RxChevronRight />}
                               onClick={() => {
-                                navigate("/all-tools");
+                                navigate("/blog");
                                 closeMenus();
                               }}
                             >
@@ -619,7 +589,7 @@ export function Navbar6() {
                             </NavbarLink>
                             <NavbarLink
                               onNavigate={closeMenus}
-                              to="/all-tools"
+                              to="/all-tools#filters5"
                               className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                             >
                               <div className="flex size-6 flex-col items-center justify-center">
@@ -630,7 +600,9 @@ export function Navbar6() {
                                 />
                               </div>
                               <div className="flex flex-col items-start justify-center">
-                                <h5 className="font-semibold">All tools</h5>
+                                <h5 className="font-semibold">
+                                  See all products
+                                </h5>
                               </div>
                             </NavbarLink>
                             <NavbarLink
@@ -651,7 +623,7 @@ export function Navbar6() {
                             </NavbarLink>
                             <NavbarLink
                               onNavigate={closeMenus}
-                              to="/contact-company"
+                              to="/about-us#contact9"
                               className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                             >
                               <div className="flex size-6 flex-col items-center justify-center">
@@ -662,7 +634,7 @@ export function Navbar6() {
                                 />
                               </div>
                               <div className="flex flex-col items-start justify-center">
-                                <h5 className="font-semibold">Contact</h5>
+                                <h5 className="font-semibold">Contact us</h5>
                               </div>
                             </NavbarLink>
                           </div>
@@ -672,7 +644,7 @@ export function Navbar6() {
                             </h4>
                             <NavbarLink
                               onNavigate={closeMenus}
-                              to="/contact-company"
+                              to="/about-us#contact9"
                               className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                             >
                               <div className="flex size-6 flex-col items-center justify-center">
@@ -690,7 +662,7 @@ export function Navbar6() {
                             </NavbarLink>
                             <NavbarLink
                               onNavigate={closeMenus}
-                              to="/testimonials"
+                              to="/about-us#logo4"
                               className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                             >
                               <div className="flex size-6 flex-col items-center justify-center">
@@ -704,9 +676,31 @@ export function Navbar6() {
                                 <h5 className="font-semibold">Testimonials</h5>
                               </div>
                             </NavbarLink>
+
                             <NavbarLink
                               onNavigate={closeMenus}
-                              to="/rental-history"
+                              to="/blog"
+                              className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
+                            >
+                              <div className="flex size-6 flex-col items-center justify-center">
+                                <img
+                                  src="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
+                                  alt=""
+                                  className="shrink-0"
+                                />
+                              </div>
+                              <div className="flex flex-col items-start justify-center">
+                                <h5 className="font-semibold">Blog</h5>
+                              </div>
+                            </NavbarLink>
+                          </div>
+                          <div className="grid auto-cols-fr grid-cols-1 gap-y-2 md:gap-y-4">
+                            <h4 className="text-sm font-semibold leading-[1.3]">
+                              About us
+                            </h4>
+                            <NavbarLink
+                              onNavigate={closeMenus}
+                              to="/about-us#timeline12"
                               className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                             >
                               <div className="flex size-6 flex-col items-center justify-center">
@@ -718,13 +712,13 @@ export function Navbar6() {
                               </div>
                               <div className="flex flex-col items-start justify-center">
                                 <h5 className="font-semibold">
-                                  Rental history
+                                  Learn our story
                                 </h5>
                               </div>
                             </NavbarLink>
                             <NavbarLink
                               onNavigate={closeMenus}
-                              to="/categories"
+                              to="/featured"
                               className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
                             >
                               <div className="flex size-6 flex-col items-center justify-center">
@@ -735,60 +729,7 @@ export function Navbar6() {
                                 />
                               </div>
                               <div className="flex flex-col items-start justify-center">
-                                <h5 className="font-semibold">Categories</h5>
-                              </div>
-                            </NavbarLink>
-                          </div>
-                          <div className="grid auto-cols-fr grid-cols-1 gap-y-2 md:gap-y-4">
-                            <h4 className="text-sm font-semibold leading-[1.3]">
-                              More
-                            </h4>
-                            <NavbarLink
-                              onNavigate={closeMenus}
-                              to="/about-company"
-                              className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
-                            >
-                              <div className="flex size-6 flex-col items-center justify-center">
-                                <img
-                                  src="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
-                                  alt=""
-                                  className="shrink-0"
-                                />
-                              </div>
-                              <div className="flex flex-col items-start justify-center">
-                                <h5 className="font-semibold">About</h5>
-                              </div>
-                            </NavbarLink>
-                            <NavbarLink
-                              onNavigate={closeMenus}
-                              to="/tools/sample-tool"
-                              className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
-                            >
-                              <div className="flex size-6 flex-col items-center justify-center">
-                                <img
-                                  src="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
-                                  alt=""
-                                  className="shrink-0"
-                                />
-                              </div>
-                              <div className="flex flex-col items-start justify-center">
-                                <h5 className="font-semibold">Sample tool</h5>
-                              </div>
-                            </NavbarLink>
-                            <NavbarLink
-                              onNavigate={closeMenus}
-                              to="/rentals/demo-item"
-                              className="grid w-full auto-cols-fr grid-cols-[max-content_1fr] items-start gap-x-3 py-2"
-                            >
-                              <div className="flex size-6 flex-col items-center justify-center">
-                                <img
-                                  src="https://d22po4pjz3o32e.cloudfront.net/relume-icon.svg"
-                                  alt=""
-                                  className="shrink-0"
-                                />
-                              </div>
-                              <div className="flex flex-col items-start justify-center">
-                                <h5 className="font-semibold">Sample rental</h5>
+                                <h5 className="font-semibold">Featured</h5>
                               </div>
                             </NavbarLink>
                             <NavbarLink
@@ -817,7 +758,7 @@ export function Navbar6() {
                             <div className="max-w-none grid w-full grid-cols-1 items-start gap-y-2 md:block">
                               <NavbarLink
                                 onNavigate={closeMenus}
-                                to="/testimonials"
+                                to="/blog-article-detail"
                                 className="flex flex-col py-2"
                               >
                                 <div className="relative mb-3 w-full overflow-hidden pt-[56.25%]">

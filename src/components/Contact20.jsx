@@ -5,7 +5,7 @@ import { BiEnvelope, BiMap, BiPhone } from "react-icons/bi";
 
 export function Contact20() {
   return (
-    <section id="relume" className="px-[5%] py-16 md:py-24 lg:py-28">
+    <section id="contact20" className="px-[5%] py-16 md:py-24 lg:py-28">
       <div className="container">
         <div className="rb-12 mx-auto mb-12 flex max-w-lg flex-col justify-center text-center md:mb-18 lg:mb-20">
           <p className="mb-3 font-semibold md:mb-4">Support</p>

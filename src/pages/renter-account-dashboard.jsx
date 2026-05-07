@@ -9,7 +9,7 @@ import { Contact20 } from "../components/Contact20";
 import { Contact6 } from "../components/Contact6";
 import { Footer1 } from "../components/Footer1";
 
-export default function Page() {
+export default function RenterAccountDashboard() {
   return (
     <div>
       <Navbar6 />

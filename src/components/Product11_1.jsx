@@ -15,50 +15,42 @@ const useCarousel = () => {
   const [api, setApi] = useState();
   const [current, setCurrent] = useState(0);
   useEffect(() => {
-    if (!api) {
-      return;
-    }
+    if (!api) return;
     setCurrent(api.selectedScrollSnap() + 1);
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap() + 1);
     });
   }, [api]);
   const handleDotClick = (index) => () => {
-    if (api) {
-      api.scrollTo(index);
-    }
+    if (api) api.scrollTo(index);
   };
-  const dotClassName = (index) => {
-    return clsx("mx-[3px] inline-block size-2 rounded-full", {
+  const dotClassName = (index) =>
+    clsx("mx-[3px] size-2 rounded-full", {
       "bg-black": current === index + 1,
       "bg-neutral-light": current !== index + 1,
     });
-  };
   return { api, setApi, handleDotClick, dotClassName };
 };
 
-export function Product5() {
+export function Product11_1() {
   const carouselState = useCarousel();
   return (
     <section
-      id="product5"
+      id="product11_1"
       className="overflow-hidden px-[5%] py-16 md:py-24 lg:py-28"
     >
       <div className="container">
         <div className="mb-12 grid grid-cols-1 items-end gap-12 md:mb-18 md:grid-cols-[1fr_max-content] lg:mb-20 lg:gap-20">
           <div className="max-w-lg">
-            <p className="mb-3 font-semibold md:mb-4">Specs</p>
+            <p className="mb-3 font-semibold md:mb-4">Latest</p>
             <h1 className="mb-3 text-5xl font-bold md:mb-4 md:text-7xl lg:text-8xl">
-              Similar tools
+              New Arrivals
             </h1>
-            <p className="md:text-md">
-              Built to handle real work on any job site. Everything you need
-              comes in the box, ready to go.
-            </p>
+            <p className="md:text-md">Just in from our partner companies.</p>
           </div>
           <div className="hidden md:flex">
-            <Button variant="secondary" size="primary" title="Details">
-              Details
+            <Button variant="secondary" size="primary" title="Browse all">
+              Browse all
             </Button>
           </div>
         </div>
@@ -68,9 +60,9 @@ export function Product5() {
         >
           <div className="relative pb-24">
             <CarouselContent className="ml-0">
-              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-1/4">
+              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-[33%] lg:pr-12">
                 <a href="#" className="font-semibold md:text-md">
-                  <div className="mb-3 block aspect-[5/6] md:mb-4">
+                  <div className="mb-3 aspect-[5/6] md:mb-4">
                     <img
                       src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
                       alt="Relume placeholder image"
@@ -78,95 +70,15 @@ export function Product5() {
                     />
                   </div>
                   <div className="mb-2">
-                    <h3>Power drill</h3>
-                    <div className="text-sm font-normal">Standard</div>
+                    <h3>Pneumatic nailer</h3>
+                    <div className="text-sm font-normal">Coil-fed</div>
                   </div>
-                  <div className="text-md md:text-lg">$45</div>
+                  <div className="text-md md:text-lg">$41</div>
                 </a>
               </CarouselItem>
-              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-1/4">
+              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-[33%] lg:pr-12">
                 <a href="#" className="font-semibold md:text-md">
-                  <div className="mb-3 block aspect-[5/6] md:mb-4">
-                    <img
-                      src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-                      alt="Relume placeholder image"
-                      className="size-full object-cover"
-                    />
-                  </div>
-                  <div className="mb-2">
-                    <h3>Impact driver</h3>
-                    <div className="text-sm font-normal">Heavy</div>
-                  </div>
-                  <div className="text-md md:text-lg">$55</div>
-                </a>
-              </CarouselItem>
-              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-1/4">
-                <a href="#" className="font-semibold md:text-md">
-                  <div className="mb-3 block aspect-[5/6] md:mb-4">
-                    <img
-                      src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-                      alt="Relume placeholder image"
-                      className="size-full object-cover"
-                    />
-                  </div>
-                  <div className="mb-2">
-                    <h3>Circular saw</h3>
-                    <div className="text-sm font-normal">Compact</div>
-                  </div>
-                  <div className="text-md md:text-lg">$50</div>
-                </a>
-              </CarouselItem>
-              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-1/4">
-                <a href="#" className="font-semibold md:text-md">
-                  <div className="mb-3 block aspect-[5/6] md:mb-4">
-                    <img
-                      src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-                      alt="Relume placeholder image"
-                      className="size-full object-cover"
-                    />
-                  </div>
-                  <div className="mb-2">
-                    <h3>Angle grinder</h3>
-                    <div className="text-sm font-normal">Industrial</div>
-                  </div>
-                  <div className="text-md md:text-lg">$60</div>
-                </a>
-              </CarouselItem>
-              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-1/4">
-                <a href="#" className="font-semibold md:text-md">
-                  <div className="mb-3 block aspect-[5/6] md:mb-4">
-                    <img
-                      src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-                      alt="Relume placeholder image"
-                      className="size-full object-cover"
-                    />
-                  </div>
-                  <div className="mb-2">
-                    <h3>Orbital sander</h3>
-                    <div className="text-sm font-normal">Variable</div>
-                  </div>
-                  <div className="text-md md:text-lg">$35</div>
-                </a>
-              </CarouselItem>
-              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-1/4">
-                <a href="#" className="font-semibold md:text-md">
-                  <div className="mb-3 block aspect-[5/6] md:mb-4">
-                    <img
-                      src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
-                      alt="Relume placeholder image"
-                      className="size-full object-cover"
-                    />
-                  </div>
-                  <div className="mb-2">
-                    <h3>Jigsaw</h3>
-                    <div className="text-sm font-normal">Precision</div>
-                  </div>
-                  <div className="text-md md:text-lg">$40</div>
-                </a>
-              </CarouselItem>
-              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-1/4">
-                <a href="#" className="font-semibold md:text-md">
-                  <div className="mb-3 block aspect-[5/6] md:mb-4">
+                  <div className="mb-3 aspect-[5/6] md:mb-4">
                     <img
                       src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
                       alt="Relume placeholder image"
@@ -175,9 +87,73 @@ export function Product5() {
                   </div>
                   <div className="mb-2">
                     <h3>Reciprocating saw</h3>
-                    <div className="text-sm font-normal">Adjustable</div>
+                    <div className="text-sm font-normal">Variable</div>
+                  </div>
+                  <div className="text-md md:text-lg">$36</div>
+                </a>
+              </CarouselItem>
+              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-[33%] lg:pr-12">
+                <a href="#" className="font-semibold md:text-md">
+                  <div className="mb-3 aspect-[5/6] md:mb-4">
+                    <img
+                      src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
+                      alt="Relume placeholder image"
+                      className="size-full object-cover"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <h3>Rotary hammer</h3>
+                    <div className="text-sm font-normal">SDS-plus</div>
+                  </div>
+                  <div className="text-md md:text-lg">$58</div>
+                </a>
+              </CarouselItem>
+              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-[33%] lg:pr-12">
+                <a href="#" className="font-semibold md:text-md">
+                  <div className="mb-3 aspect-[5/6] md:mb-4">
+                    <img
+                      src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
+                      alt="Relume placeholder image"
+                      className="size-full object-cover"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <h3>Belt sander</h3>
+                    <div className="text-sm font-normal">Portable</div>
+                  </div>
+                  <div className="text-md md:text-lg">$44</div>
+                </a>
+              </CarouselItem>
+              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-[33%] lg:pr-12">
+                <a href="#" className="font-semibold md:text-md">
+                  <div className="mb-3 aspect-[5/6] md:mb-4">
+                    <img
+                      src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
+                      alt="Relume placeholder image"
+                      className="size-full object-cover"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <h3>Tile cutter</h3>
+                    <div className="text-sm font-normal">Wet</div>
                   </div>
                   <div className="text-md md:text-lg">$48</div>
+                </a>
+              </CarouselItem>
+              <CarouselItem className="basis-[95%] pl-0 pr-6 sm:basis-4/5 md:basis-1/2 md:pr-8 lg:basis-[33%] lg:pr-12">
+                <a href="#" className="font-semibold md:text-md">
+                  <div className="mb-3 aspect-[5/6] md:mb-4">
+                    <img
+                      src="https://d22po4pjz3o32e.cloudfront.net/placeholder-image.svg"
+                      alt="Relume placeholder image"
+                      className="size-full object-cover"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <h3>Jigsaw</h3>
+                    <div className="text-sm font-normal">Orbital</div>
+                  </div>
+                  <div className="text-md md:text-lg">$29</div>
                 </a>
               </CarouselItem>
             </CarouselContent>
@@ -206,10 +182,6 @@ export function Product5() {
                 <button
                   onClick={carouselState.handleDotClick(5)}
                   className={carouselState.dotClassName(5)}
-                />
-                <button
-                  onClick={carouselState.handleDotClick(6)}
-                  className={carouselState.dotClassName(6)}
                 />
               </div>
               <div className="flex gap-2 md:gap-4">
