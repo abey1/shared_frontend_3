@@ -86,6 +86,12 @@ export function Navbar6() {
         </NavbarLink>
         <div className="absolute hidden h-screen overflow-auto border-b border-border-primary bg-background-primary px-[5%] pb-24 pt-4 md:pb-0 lg:static lg:ml-6 lg:flex lg:h-auto lg:flex-1 lg:items-center lg:justify-between lg:border-none lg:bg-none lg:px-0 lg:pt-0">
           <div className="flex flex-col items-center lg:flex-row">
+            <MegaMenu
+              categories={toolRentalMenuData}
+              triggerLabel="Products"
+              triggerClassName={productsMegaTriggerClassName}
+            />
+
             <NavbarLink
               onNavigate={closeMenus}
               to="/all-tools"
@@ -107,11 +113,7 @@ export function Navbar6() {
             >
               Categories
             </NavbarLink>
-            <MegaMenu
-              categories={toolRentalMenuData}
-              triggerLabel="Products"
-              triggerClassName={productsMegaTriggerClassName}
-            />
+
             <NavbarLink
               onNavigate={closeMenus}
               to="/how-it-works"
@@ -126,26 +128,28 @@ export function Navbar6() {
             >
               About us
             </NavbarLink>
+            <button
+              className="relative flex w-full items-center justify-between whitespace-nowrap py-3 text-md lg:w-auto lg:justify-start lg:gap-2 lg:px-4 lg:py-6 lg:text-base"
+              onClick={useActive.openOnMobileDropdownMenu}
+              onMouseEnter={useActive.openOnMobileDropdownMenu}
+              onMouseLeave={useActive.closeOnDesktopDropdownMenu}
+            >
+              <span>Resources</span>
+              <motion.span
+                animate={useActive.animateDropdownMenuIcon}
+                variants={{
+                  rotated: { rotate: 180 },
+                  initial: { rotate: 0 },
+                }}
+                transition={{ duration: 0.3 }}
+              >
+                <RxChevronDown />
+              </motion.span>
+            </button>
             <div
               onMouseEnter={useActive.openOnDesktopDropdownMenu}
               onMouseLeave={useActive.closeOnDesktopDropdownMenu}
             >
-              <button
-                className="relative flex w-full items-center justify-between whitespace-nowrap py-3 text-md lg:w-auto lg:justify-start lg:gap-2 lg:px-4 lg:py-6 lg:text-base"
-                onClick={useActive.openOnMobileDropdownMenu}
-              >
-                <span>Resources</span>
-                <motion.span
-                  animate={useActive.animateDropdownMenuIcon}
-                  variants={{
-                    rotated: { rotate: 180 },
-                    initial: { rotate: 0 },
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <RxChevronDown />
-                </motion.span>
-              </button>
               <AnimatePresence>
                 <motion.nav
                   variants={{
@@ -529,6 +533,20 @@ export function Navbar6() {
               >
                 Products
               </button>
+              <NavbarLink
+                onNavigate={closeMenus}
+                to="/all-tools"
+                className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
+              >
+                Browse
+              </NavbarLink>
+              <NavbarLink
+                onNavigate={closeMenus}
+                to="/for-companies"
+                className="relative block w-auto py-3 text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
+              >
+                Companies
+              </NavbarLink>
               <NavbarLink
                 onNavigate={closeMenus}
                 to="/categories"

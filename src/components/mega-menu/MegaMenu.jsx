@@ -14,6 +14,7 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRight, Search, X } from "lucide-react";
 import { getMenuIcon } from "./iconMap.js";
+import { RxChevronDown, RxChevronRight } from "react-icons/rx";
 
 /** Root column + up to four child tiers — each tier is its own column to the right. */
 const LEVEL_COLUMN_COUNT = 5;
@@ -35,7 +36,8 @@ function flattenCategoriesWithPaths(roots) {
         breadcrumb: labelsNext.join(" › "),
         searchBlob: labelsNext.join(" ").toLowerCase(),
       });
-      if (node.children?.length) walk(node.children, pathIndicesNext, labelsNext);
+      if (node.children?.length)
+        walk(node.children, pathIndicesNext, labelsNext);
     }
   }
   walk(roots, [], []);
@@ -331,7 +333,13 @@ export function MegaMenu({
         onMouseLeave={scheduleClose}
         onFocus={openMenu}
         onBlur={(ev) => {
-          if (!staysInMenuSurface(ev.relatedTarget, triggerRef.current, panelRef.current)) {
+          if (
+            !staysInMenuSurface(
+              ev.relatedTarget,
+              triggerRef.current,
+              panelRef.current,
+            )
+          ) {
             scheduleClose();
           }
         }}
@@ -353,7 +361,7 @@ export function MegaMenu({
           transition={{ type: "spring", stiffness: 320, damping: 26 }}
           className="inline-block opacity-70"
         >
-          ▾
+          <RxChevronDown className="h-4 w-4" aria-hidden />
         </motion.span>
       </button>
 
@@ -419,202 +427,213 @@ export function MegaMenu({
                 className={`flex min-h-0 flex-1 flex-nowrap divide-x divide-slate-200/90 overflow-hidden`}
               >
                 <aside
-                      className="flex w-[3.25rem] shrink-0 flex-col items-center gap-1 border-r border-slate-200/90 bg-slate-50 py-3"
-                      aria-label="Department icons"
-                    >
-                      {categories.map((cat, i) => {
-                        const Icon = getMenuIcon(cat.icon);
-                        const isRootActive = hoverPath[0] === i;
-                        return (
-                          <button
-                            key={cat.id}
-                            type="button"
-                            title={cat.label}
-                            aria-label={cat.label}
-                            aria-current={isRootActive ? "true" : undefined}
-                            className={`flex h-10 w-10 items-center justify-center rounded-lg outline-none transition focus-visible:ring-2 focus-visible:ring-brand-600 ${
-                              isRootActive
-                                ? "bg-brand-900 text-white shadow-inner"
-                                : "text-slate-600 hover:bg-white hover:text-brand-900"
-                            }`}
-                            onMouseEnter={() => setHoverPath([i])}
-                            onFocus={() => setHoverPath([i])}
-                            onKeyDown={(e) => onRailKeyDown(e, i)}
+                  className="flex w-[3.25rem] shrink-0 flex-col items-center gap-1 border-r border-slate-200/90 bg-slate-50 py-3"
+                  aria-label="Department icons"
+                >
+                  {categories.map((cat, i) => {
+                    const Icon = getMenuIcon(cat.icon);
+                    const isRootActive = hoverPath[0] === i;
+                    return (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        title={cat.label}
+                        aria-label={cat.label}
+                        aria-current={isRootActive ? "true" : undefined}
+                        className={`flex h-10 w-10 items-center justify-center rounded-lg outline-none transition focus-visible:ring-2 focus-visible:ring-brand-600 ${
+                          isRootActive
+                            ? "bg-brand-900 text-white shadow-inner"
+                            : "text-slate-600 hover:bg-white hover:text-brand-900"
+                        }`}
+                        onMouseEnter={() => setHoverPath([i])}
+                        onFocus={() => setHoverPath([i])}
+                        onKeyDown={(e) => onRailKeyDown(e, i)}
+                      >
+                        {Icon ? (
+                          <Icon className="h-5 w-5 shrink-0" aria-hidden />
+                        ) : (
+                          <span className="text-xs font-bold tabular-nums">
+                            {i + 1}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </aside>
+
+                <div className="flex min-h-0 min-w-0 flex-1 flex-row flex-nowrap overflow-x-auto overflow-y-hidden">
+                  {levelColumns.map((items, col) => {
+                    const visible = col === 0 || hoverPath.length >= col;
+                    if (!visible) return null;
+                    if (col > 0 && items.length === 0) return null;
+
+                    return (
+                      <motion.div
+                        key={col}
+                        initial={{ opacity: 0, x: -12 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                        className="w-[220px] shrink-0 overflow-y-auto bg-white"
+                      >
+                        <div className="py-3" role="presentation">
+                          <ul
+                            role="menu"
+                            aria-label={
+                              col === 0
+                                ? "Departments"
+                                : `Category level ${col + 1}`
+                            }
                           >
-                            {Icon ? (
-                              <Icon className="h-5 w-5 shrink-0" aria-hidden />
-                            ) : (
-                              <span className="text-xs font-bold tabular-nums">{i + 1}</span>
-                            )}
-                          </button>
-                        );
-                      })}
-                    </aside>
+                            {items.map((item, rowIndex) => {
+                              const Icon = getMenuIcon(item.icon);
+                              const hasChildren = Boolean(
+                                item.children && item.children.length,
+                              );
+                              const isActive =
+                                col < hoverPath.length &&
+                                hoverPath[col] === rowIndex;
 
-                    <div className="flex min-h-0 min-w-0 flex-1 flex-row flex-nowrap overflow-x-auto overflow-y-hidden">
-                      {levelColumns.map((items, col) => {
-                        const visible = col === 0 || hoverPath.length >= col;
-                        if (!visible) return null;
-                        if (col > 0 && items.length === 0) return null;
-
-                        return (
-                          <motion.div
-                            key={col}
-                            initial={{ opacity: 0, x: -12 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                            className="w-[220px] shrink-0 overflow-y-auto bg-white"
-                          >
-                            <div className="py-3" role="presentation">
-                              <ul
-                                role="menu"
-                                aria-label={
-                                  col === 0 ? "Departments" : `Category level ${col + 1}`
-                                }
-                              >
-                                {items.map((item, rowIndex) => {
-                                  const Icon = getMenuIcon(item.icon);
-                                  const hasChildren = Boolean(
-                                    item.children && item.children.length,
-                                  );
-                                  const isActive =
-                                    col < hoverPath.length &&
-                                    hoverPath[col] === rowIndex;
-
-                                  return (
-                                    <li key={item.id} role="presentation">
-                                      <a
-                                        role="menuitem"
-                                        href={item.href ?? "#"}
-                                        className={`group mx-2 flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-brand-600 ${
+                              return (
+                                <li key={item.id} role="presentation">
+                                  <a
+                                    role="menuitem"
+                                    href={item.href ?? "#"}
+                                    className={`group mx-2 flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm outline-none transition-colors focus-visible:ring-2 focus-visible:ring-brand-600 ${
+                                      isActive
+                                        ? "bg-slate-100 font-medium text-brand-800"
+                                        : "text-slate-800 hover:bg-slate-50 hover:text-brand-900"
+                                    }`}
+                                    onMouseEnter={() => {
+                                      setHoverPath((prev) => [
+                                        ...prev.slice(0, col),
+                                        rowIndex,
+                                      ]);
+                                    }}
+                                    onFocus={() => {
+                                      setHoverPath((prev) => [
+                                        ...prev.slice(0, col),
+                                        rowIndex,
+                                      ]);
+                                    }}
+                                    onKeyDown={(e) =>
+                                      onItemKeyDown(
+                                        e,
+                                        col,
+                                        rowIndex,
+                                        hasChildren,
+                                      )
+                                    }
+                                  >
+                                    {Icon ? (
+                                      <Icon
+                                        className={`h-4 w-4 shrink-0 ${
                                           isActive
-                                            ? "bg-slate-100 font-medium text-brand-800"
-                                            : "text-slate-800 hover:bg-slate-50 hover:text-brand-900"
+                                            ? "text-brand-800"
+                                            : "text-slate-400 group-hover:text-brand-700"
                                         }`}
-                                        onMouseEnter={() => {
-                                          setHoverPath((prev) => [
-                                            ...prev.slice(0, col),
-                                            rowIndex,
-                                          ]);
-                                        }}
-                                        onFocus={() => {
-                                          setHoverPath((prev) => [
-                                            ...prev.slice(0, col),
-                                            rowIndex,
-                                          ]);
-                                        }}
-                                        onKeyDown={(e) =>
-                                          onItemKeyDown(e, col, rowIndex, hasChildren)
-                                        }
-                                      >
-                                        {Icon ? (
-                                          <Icon
-                                            className={`h-4 w-4 shrink-0 ${
-                                              isActive
-                                                ? "text-brand-800"
-                                                : "text-slate-400 group-hover:text-brand-700"
-                                            }`}
-                                            aria-hidden
-                                          />
-                                        ) : (
-                                          <span className="w-4 shrink-0" />
-                                        )}
-                                        <span className="min-w-0 flex-1 truncate">
-                                          {item.label}
-                                        </span>
-                                        {hasChildren && (
-                                          <ChevronRight
-                                            className={`h-4 w-4 shrink-0 ${
-                                              isActive
-                                                ? "translate-x-0.5 text-brand-800"
-                                                : "text-slate-300 group-hover:translate-x-0.5 group-hover:text-brand-600"
-                                            }`}
-                                            aria-hidden
-                                          />
-                                        )}
-                                      </a>
-                                    </li>
-                                  );
-                                })}
-                              </ul>
-                              {col > 0 &&
-                                (() => {
-                                  const parent = getNodeAtPath(
-                                    categories,
-                                    hoverPath.slice(0, col),
-                                  );
-                                  if (!parent?.href) return null;
-                                  return (
-                                    <a
-                                      href={parent.href}
-                                      className="mx-4 mt-2 block text-xs font-semibold text-brand-800 underline-offset-2 hover:underline"
-                                    >
-                                      View all {parent.label.toLowerCase()}
-                                    </a>
-                                  );
-                                })()}
-                            </div>
-                          </motion.div>
-                        );
-                      })}
-                    </div>
+                                        aria-hidden
+                                      />
+                                    ) : (
+                                      <span className="w-4 shrink-0" />
+                                    )}
+                                    <span className="min-w-0 flex-1 truncate">
+                                      {item.label}
+                                    </span>
+                                    {hasChildren && (
+                                      <ChevronRight
+                                        className={`h-4 w-4 shrink-0 ${
+                                          isActive
+                                            ? "translate-x-0.5 text-brand-800"
+                                            : "text-slate-300 group-hover:translate-x-0.5 group-hover:text-brand-600"
+                                        }`}
+                                        aria-hidden
+                                      />
+                                    )}
+                                  </a>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                          {col > 0 &&
+                            (() => {
+                              const parent = getNodeAtPath(
+                                categories,
+                                hoverPath.slice(0, col),
+                              );
+                              if (!parent?.href) return null;
+                              return (
+                                <a
+                                  href={parent.href}
+                                  className="mx-4 mt-2 block text-xs font-semibold text-brand-800 underline-offset-2 hover:underline"
+                                >
+                                  View all {parent.label.toLowerCase()}
+                                </a>
+                              );
+                            })()}
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </div>
 
                 <motion.aside className="hidden min-h-0 w-[min(100%,320px)] shrink-0 overflow-y-auto bg-gradient-to-b from-slate-50/90 to-white md:block lg:w-[360px]">
                   <div className="p-4">
                     <p className="text-xs font-semibold uppercase tracking-wide text-brand-900/75">
-                    Featured rentals
-                  </p>
-                  <AnimatePresence mode="wait">
-                    {featured && featured.length > 0 ? (
-                      <motion.div
-                        key={activeRoot?.id ?? "none"}
-                        initial={{ opacity: 0, x: 16 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 8 }}
-                        transition={{ duration: 0.18 }}
-                        className="mt-3 space-y-3"
-                      >
-                        {featured.map((f) => (
-                          <a
-                            key={f.id}
-                            href={f.href}
-                            className="group flex gap-3 overflow-hidden rounded-xl border border-slate-200/90 bg-white p-3 shadow-sm outline-none transition hover:border-brand-800/20 hover:shadow-md focus-visible:ring-2 focus-visible:ring-brand-700"
-                          >
-                            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg">
-                              <img
-                                src={f.imageUrl}
-                                alt={f.title}
-                                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
-                                loading="lazy"
-                              />
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              {f.badge && (
-                                <span className="mb-0.5 inline-block rounded bg-brand-900 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
-                                  {f.badge}
-                                </span>
-                              )}
-                              <p className="text-sm font-semibold text-slate-900">{f.title}</p>
-                              {f.description && (
-                                <p className="mt-0.5 text-xs leading-snug text-slate-600">
-                                  {f.description}
+                      Featured rentals
+                    </p>
+                    <AnimatePresence mode="wait">
+                      {featured && featured.length > 0 ? (
+                        <motion.div
+                          key={activeRoot?.id ?? "none"}
+                          initial={{ opacity: 0, x: 16 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 8 }}
+                          transition={{ duration: 0.18 }}
+                          className="mt-3 space-y-3"
+                        >
+                          {featured.map((f) => (
+                            <a
+                              key={f.id}
+                              href={f.href}
+                              className="group flex gap-3 overflow-hidden rounded-xl border border-slate-200/90 bg-white p-3 shadow-sm outline-none transition hover:border-brand-800/20 hover:shadow-md focus-visible:ring-2 focus-visible:ring-brand-700"
+                            >
+                              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg">
+                                <img
+                                  src={f.imageUrl}
+                                  alt={f.title}
+                                  className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                                  loading="lazy"
+                                />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                {f.badge && (
+                                  <span className="mb-0.5 inline-block rounded bg-brand-900 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white">
+                                    {f.badge}
+                                  </span>
+                                )}
+                                <p className="text-sm font-semibold text-slate-900">
+                                  {f.title}
                                 </p>
-                              )}
-                            </div>
-                          </a>
-                        ))}
-                      </motion.div>
-                    ) : (
-                      <motion.p
-                        key="empty"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="mt-6 text-sm text-slate-600"
-                      >
-                        Select a department to see curated rental bundles.
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
+                                {f.description && (
+                                  <p className="mt-0.5 text-xs leading-snug text-slate-600">
+                                    {f.description}
+                                  </p>
+                                )}
+                              </div>
+                            </a>
+                          ))}
+                        </motion.div>
+                      ) : (
+                        <motion.p
+                          key="empty"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="mt-6 text-sm text-slate-600"
+                        >
+                          Select a department to see curated rental bundles.
+                        </motion.p>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </motion.aside>
               </div>
