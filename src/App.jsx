@@ -19,6 +19,7 @@ import ScrollToHashElement from "./utils/ScrollToHashElement.jsx";
 import ScrollToTop from "./utils/ScrollToTop.jsx";
 import Featured from "./pages/featured.jsx";
 import BlogArticleDetail from "./pages/blog-article-detail.jsx";
+import Admin from "./pages/admin.jsx";
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
           <Route path="/for-companies" element={<Companies />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/all-tools" element={<AllTools />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/tools/:toolSlug" element={<ToolDetails />} />
           <Route path="/rental-history" element={<RentalHistory />} />
           <Route path="/rentals/:itemId" element={<SingleRentedItemDetail />} />

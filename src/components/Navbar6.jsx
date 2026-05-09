@@ -1,9 +1,12 @@
 "use client";
 
+import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { Button, useMediaQuery } from "@relume_io/relume-ui";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { getSignUpLoginRequest, loginRequest } from "../auth/msalConfig";
+import { NavbarUserMenu } from "./NavbarUserMenu";
 import { RxChevronDown, RxChevronRight } from "react-icons/rx";
 import { MegaMenu, MegaMenuMobile, toolRentalMenuData } from "./mega-menu";
 
@@ -66,10 +69,26 @@ const productsMegaTriggerClassName =
 export function Navbar6() {
   const useActive = useRelume();
   const navigate = useNavigate();
+  const { instance } = useMsal();
+  const isAuthenticated = useIsAuthenticated();
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const closeMenus = () => {
     useActive.closeMenus();
     setIsMegaMenuOpen(false);
+  };
+
+  const handleSignIn = () => {
+    closeMenus();
+    instance.loginRedirect(loginRequest).catch((err) => {
+      console.error("MSAL sign-in failed:", err);
+    });
+  };
+
+  const handleSignUp = () => {
+    closeMenus();
+    instance.loginRedirect(getSignUpLoginRequest()).catch((err) => {
+      console.error("MSAL sign-up failed:", err);
+    });
   };
 
   return (
@@ -439,27 +458,23 @@ export function Navbar6() {
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <Button
-              title="Sign up"
-              variant="secondary"
-              size="sm"
-              onClick={() => {
-                navigate("/how-it-works");
-                closeMenus();
-              }}
-            >
-              Sign up
-            </Button>
-            <Button
-              title="Login"
-              size="sm"
-              onClick={() => {
-                navigate("/rental-history");
-                closeMenus();
-              }}
-            >
-              Login
-            </Button>
+            {isAuthenticated ? (
+              <NavbarUserMenu onNavigate={closeMenus} />
+            ) : (
+              <>
+                <Button
+                  title="Sign up"
+                  variant="secondary"
+                  size="sm"
+                  onClick={handleSignUp}
+                >
+                  Sign up
+                </Button>
+                <Button title="Sign in" size="sm" onClick={handleSignIn}>
+                  Sign in
+                </Button>
+              </>
+            )}
           </div>
         </div>
         <button
@@ -840,27 +855,23 @@ export function Navbar6() {
                 </AnimatePresence>
               </div>
               <div className="mt-6 flex flex-col gap-4">
-                <Button
-                  title="Sign up"
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => {
-                    navigate("/how-it-works");
-                    closeMenus();
-                  }}
-                >
-                  Sign up
-                </Button>
-                <Button
-                  title="Login"
-                  size="sm"
-                  onClick={() => {
-                    navigate("/rental-history");
-                    closeMenus();
-                  }}
-                >
-                  Login
-                </Button>
+                {isAuthenticated ? (
+                  <NavbarUserMenu onNavigate={closeMenus} />
+                ) : (
+                  <>
+                    <Button
+                      title="Sign up"
+                      variant="secondary"
+                      size="sm"
+                      onClick={handleSignUp}
+                    >
+                      Sign up
+                    </Button>
+                    <Button title="Sign in" size="sm" onClick={handleSignIn}>
+                      Sign in
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </motion.div>
