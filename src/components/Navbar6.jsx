@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { RxChevronDown, RxChevronRight } from "react-icons/rx";
+import { MegaMenu, MegaMenuMobile, toolRentalMenuData } from "./mega-menu";
 
 function NavbarLink({ onNavigate, to, className, children, onClick, ...rest }) {
   return (
@@ -59,10 +60,17 @@ const useRelume = () => {
   };
 };
 
+const productsMegaTriggerClassName =
+  "relative flex w-full items-center gap-1 whitespace-nowrap border-0 bg-transparent py-3 text-left text-md outline-none ring-offset-background-primary focus-visible:ring-2 focus-visible:ring-border-primary lg:inline-flex lg:w-auto lg:justify-start lg:px-4 lg:py-6 lg:text-base";
+
 export function Navbar6() {
   const useActive = useRelume();
   const navigate = useNavigate();
-  const closeMenus = useActive.closeMenus;
+  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const closeMenus = () => {
+    useActive.closeMenus();
+    setIsMegaMenuOpen(false);
+  };
 
   return (
     <section
@@ -99,6 +107,11 @@ export function Navbar6() {
             >
               Categories
             </NavbarLink>
+            <MegaMenu
+              categories={toolRentalMenuData}
+              triggerLabel="Products"
+              triggerClassName={productsMegaTriggerClassName}
+            />
             <NavbarLink
               onNavigate={closeMenus}
               to="/how-it-works"
@@ -506,6 +519,16 @@ export function Navbar6() {
             className="absolute left-0 right-0 top-0 block h-dvh overflow-auto border-b border-border-primary bg-background-primary px-[5%] pb-8 pt-4"
           >
             <div className="flex flex-col">
+              <button
+                type="button"
+                className="relative block w-auto py-3 text-left text-md lg:inline-block lg:px-4 lg:py-6 lg:text-base"
+                onClick={() => {
+                  useActive.closeMenus();
+                  setIsMegaMenuOpen(true);
+                }}
+              >
+                Products
+              </button>
               <NavbarLink
                 onNavigate={closeMenus}
                 to="/categories"
@@ -825,6 +848,12 @@ export function Navbar6() {
           </motion.div>
         </motion.div>
       </AnimatePresence>
+      <MegaMenuMobile
+        categories={toolRentalMenuData}
+        isOpen={isMegaMenuOpen}
+        onClose={() => setIsMegaMenuOpen(false)}
+        title="Products"
+      />
     </section>
   );
 }
