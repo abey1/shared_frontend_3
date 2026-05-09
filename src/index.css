@@ -3,8 +3,18 @@
 @tailwind utilities;
 
 @layer base {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html {
+    scrollbar-gutter: stable;
+    scrollbar-width: none;
+  }
+
   body {
     @apply bg-background-primary text-text-primary antialiased;
+    -ms-overflow-style: none;
   }
 
   #root {
@@ -13,8 +23,8 @@
 
   code {
     @apply rounded px-2 py-0.5 font-mono text-sm;
-    background-color: theme('colors.neutral.lightest');
-    color: theme('colors.text.primary');
+    background-color: theme("colors.neutral.lightest");
+    color: theme("colors.text.primary");
   }
 }
 

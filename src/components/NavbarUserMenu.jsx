@@ -47,7 +47,7 @@ export function NavbarUserMenu({ onNavigate }) {
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger
         className={cn(
           "flex max-w-[min(100%,20rem)] items-center gap-2 rounded-md border border-border-primary bg-background-primary px-3 py-2",
