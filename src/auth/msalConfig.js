@@ -48,6 +48,11 @@ const extraScopes =
   import.meta.env.VITE_MSAL_SCOPES?.split(/[,;\s]+/).map((s) => s.trim()).filter(Boolean) ??
   [];
 
+/** Scopes used only to refresh / read ID token claims (no API / Graph). */
+export const silentIdTokenRequest = {
+  scopes: ["openid", "profile"],
+};
+
 /** Base delegated scopes for OIDC + optional API scopes (e.g. api://.../access_as_user). */
 export const loginRequest = {
   scopes: [...new Set(["openid", "profile", "offline_access", ...extraScopes])],

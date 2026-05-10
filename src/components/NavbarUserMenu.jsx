@@ -36,8 +36,10 @@ function ProfileAvatar({ photoUrl, initials }) {
 
 export function NavbarUserMenu({ onNavigate }) {
   const { instance } = useMsal();
-  const { account, displayName, initials, photoUrl } = useAccountProfile();
-
+  const { account, displayName, initials, photoUrl, idTokenClaims } =
+    useAccountProfile();
+  console.log(`${displayName} (${account?.username}) logged in`);
+  console.log(idTokenClaims);
   const handleSignOut = () => {
     onNavigate?.();
     instance.logoutRedirect({
@@ -77,7 +79,11 @@ export function NavbarUserMenu({ onNavigate }) {
           </RouterLink>
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="cursor-pointer">
-          <RouterLink to="/admin" className="w-full" onClick={() => onNavigate?.()}>
+          <RouterLink
+            to="/admin"
+            className="w-full"
+            onClick={() => onNavigate?.()}
+          >
             Admin page
           </RouterLink>
         </DropdownMenuItem>
