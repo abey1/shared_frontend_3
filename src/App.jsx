@@ -20,10 +20,12 @@ import ScrollToTop from "./utils/ScrollToTop.jsx";
 import Featured from "./pages/featured.jsx";
 import BlogArticleDetail from "./pages/blog-article-detail.jsx";
 import Admin from "./pages/admin.jsx";
+import { BackendUserSync } from "./components/BackendUserSync.jsx";
 
 export default function App() {
   return (
     <>
+      <BackendUserSync />
       <ScrollToTop />
       <ScrollToHashElement />
       <Routes>

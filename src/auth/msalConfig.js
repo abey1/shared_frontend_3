@@ -48,6 +48,16 @@ const extraScopes =
   import.meta.env.VITE_MSAL_SCOPES?.split(/[,;\s]+/).map((s) => s.trim()).filter(Boolean) ??
   [];
 
+/**
+ * Delegated scopes for your Nest API only. MSAL requires one resource per silent/popup request;
+ * do not mix these with `openid` / Graph scopes here.
+ */
+const apiResourceScopes = extraScopes.filter((s) => s.startsWith("api://"));
+
+export const apiAccessTokenRequest = {
+  scopes: apiResourceScopes,
+};
+
 /** Scopes used only to refresh / read ID token claims (no API / Graph). */
 export const silentIdTokenRequest = {
   scopes: ["openid", "profile"],
