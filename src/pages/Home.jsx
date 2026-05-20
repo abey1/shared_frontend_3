@@ -1,5 +1,5 @@
-import React from 'react'
-import { Navbar6 } from '../components/Navbar6'
+import React from "react";
+import { Navbar6 } from "../components/Navbar6";
 import { Header77 } from '../components/Header77'
 import { Layout522 } from '../components/Layout522'
 import { Layout356 } from '../components/Layout356'

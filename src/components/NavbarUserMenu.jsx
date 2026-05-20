@@ -12,6 +12,7 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 import { RxChevronDown } from "react-icons/rx";
 import { logoutRequest } from "../auth/msalConfig";
+import { useAppRoles } from "../context/AppRolesContext.jsx";
 import { useAccountProfile } from "../hooks/useAccountProfile";
 
 function ProfileAvatar({ photoUrl, initials }) {
@@ -36,12 +37,13 @@ function ProfileAvatar({ photoUrl, initials }) {
 
 export function NavbarUserMenu({ onNavigate }) {
   const { instance } = useMsal();
-  const { account, displayName, initials, photoUrl, idTokenClaims } =
-    useAccountProfile();
-  console.log(`${displayName} (${account?.username}) logged in`);
-  console.log(idTokenClaims);
+  const { account, displayName, initials, photoUrl } = useAccountProfile();
+  const { isPlatformAdmin, meStatus, resetSession } = useAppRoles();
+  const showAdminLink =
+    meStatus === "ready" && isPlatformAdmin;
   const handleSignOut = () => {
     onNavigate?.();
+    resetSession();
     instance.logoutRedirect({
       ...logoutRequest,
       account: account ?? undefined,
@@ -78,15 +80,17 @@ export function NavbarUserMenu({ onNavigate }) {
             User page
           </RouterLink>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild className="cursor-pointer">
-          <RouterLink
-            to="/admin"
-            className="w-full"
-            onClick={() => onNavigate?.()}
-          >
-            Admin page
-          </RouterLink>
-        </DropdownMenuItem>
+        {showAdminLink ? (
+          <DropdownMenuItem asChild className="cursor-pointer">
+            <RouterLink
+              to="/admin"
+              className="w-full"
+              onClick={() => onNavigate?.()}
+            >
+              Admin page
+            </RouterLink>
+          </DropdownMenuItem>
+        ) : null}
         <DropdownMenuSeparator className="bg-border-primary" />
         <DropdownMenuItem className="cursor-pointer" onClick={handleSignOut}>
           Sign out

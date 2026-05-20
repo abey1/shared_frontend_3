@@ -16,6 +16,8 @@ export default defineConfig(({ mode }) => {
               "/api": {
                 target: proxyTarget,
                 changeOrigin: true,
+                // Nest has no `/api` global prefix (`main.ts`). Strip it so `/api/users/me` → `/users/me`.
+                rewrite: (path) => path.replace(/^\/api/, "") || "/",
               },
             },
           },

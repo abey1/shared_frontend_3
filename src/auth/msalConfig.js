@@ -35,7 +35,8 @@ export const msalConfig = {
     authority,
     redirectUri,
     postLogoutRedirectUri,
-    navigateToLoginRequestUrl: true,
+    /** Required for React Router: avoids fighting MSAL over URL restore and stray `?state=` after login. */
+    navigateToLoginRequestUrl: false,
     knownAuthorities: parseKnownAuthorities(),
   },
   cache: {
