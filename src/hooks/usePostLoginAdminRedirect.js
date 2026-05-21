@@ -8,7 +8,7 @@ import {
 import { useAppRoles } from "../context/AppRolesContext.jsx";
 
 /**
- * Sends platform admins to `/admin` once `/users/me` is ready when a post-login intent
+ * Sends platform admins to `/dashboard` once `/users/me` is ready when a post-login intent
  * exists (see `main.jsx` + MSAL after `handleRedirectPromise`). Mounted from
  * `PostLoginAdminRedirect` in `App.jsx`.
  */
@@ -39,7 +39,7 @@ export function usePostLoginAdminRedirect() {
       return;
     }
 
-    navigate("/admin", { replace: true });
+    navigate("/dashboard", { replace: true });
     setTimeout(() => clearOpenAdminAfterNextMe(), 0);
   }, [
     isAuthenticated,

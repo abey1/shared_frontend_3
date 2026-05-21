@@ -31,6 +31,9 @@ export async function apiFetch(path, init = {}) {
 
   const headers = new Headers(initHeaders);
 
+  const methodUpper = String(init.method ?? "GET").toUpperCase();
+  const isBodylessMethod = methodUpper === "GET" || methodUpper === "HEAD";
+
   let token = accessToken;
   if (getAccessToken && (token === undefined || token === null)) {
     token = await getAccessToken();
@@ -40,18 +43,27 @@ export async function apiFetch(path, init = {}) {
   }
 
   let resolvedBody = body;
-  if (json !== undefined) {
+  if (!isBodylessMethod && json !== undefined) {
     if (!headers.has("Content-Type")) {
       headers.set("Content-Type", "application/json");
     }
     resolvedBody = JSON.stringify(json);
   }
 
-  return fetch(apiUrl(path), {
+  /** GET/HEAD must not include a body (RFC 9110); gateways often reply 400 otherwise. */
+  const includeBody =
+    !isBodylessMethod &&
+    resolvedBody !== undefined &&
+    resolvedBody !== null;
+
+  /** @type {RequestInit} */
+  const fetchOptions = {
     ...rest,
     headers,
-    body: resolvedBody,
-  });
+    ...(includeBody ? { body: resolvedBody } : {}),
+  };
+
+  return fetch(apiUrl(path), fetchOptions);
 }
 
 /**

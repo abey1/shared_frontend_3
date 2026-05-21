@@ -14,11 +14,14 @@
     "@azure/msal-react": "^5.4.0",
     "@relume_io/relume-tailwind": "^1.3.0",
     "@relume_io/relume-ui": "^1.3.1",
+    "@tanstack/react-table": "^8.21.3",
     "framer-motion": "^11.18.2",
+    "lucide-react": "^1.16.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-icons": "^5.4.0",
-    "react-router-dom": "^7.14.2"
+    "react-router-dom": "^7.14.2",
+    "recharts": "^3.8.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

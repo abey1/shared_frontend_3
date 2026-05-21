@@ -83,7 +83,7 @@ export function NavbarUserMenu({ onNavigate }) {
         {showAdminLink ? (
           <DropdownMenuItem asChild className="cursor-pointer">
             <RouterLink
-              to="/admin"
+              to="/dashboard"
               className="w-full"
               onClick={() => onNavigate?.()}
             >
