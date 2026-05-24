@@ -28,6 +28,7 @@ import AdminRevenueOverviewPage from "./pages/admin/revenue-overview-page.jsx";
 import AdminUsersPage from "./pages/admin/users-page.jsx";
 import { PostLoginAdminRedirect } from "./components/PostLoginAdminRedirect.jsx";
 import { BackendUserSync } from "./components/BackendUserSync.jsx";
+import InviteRespondPage from "./pages/invite-respond.jsx";
 
 const AdminInvitationsPage = lazy(() =>
   import("./pages/admin/invitations-page.jsx"),
@@ -53,6 +54,7 @@ export default function App() {
       <ScrollToTop />
       <ScrollToHashElement />
       <Routes>
+        <Route path="/invite/:token" element={<InviteRespondPage />} />
         <Route element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="/about-company" element={<AboutCompany />} />

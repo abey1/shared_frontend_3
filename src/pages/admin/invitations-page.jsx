@@ -483,8 +483,24 @@ export default function AdminInvitationsPage() {
         role: formRole,
         ...(formExpires ? { expiresAt: fromDatetimeLocalToIso(formExpires) } : {}),
       };
-      console.log("[invitations] create invitation body:", body);
-      await createInvitation(getAccessToken, body);
+      // #region invitation mail debug trace (browser console)
+      console.log(
+        "[invitations-debug] onCreateSubmit → POST /invitations",
+        { businessId: body.businessId, role: body.role, hasExpiresAt: !!body.expiresAt },
+      );
+      const created = await createInvitation(getAccessToken, body);
+      console.log("[invitations-debug] POST /invitations response:", created);
+      if (created?.emailSent === false) {
+        console.warn(
+          "[invitations-debug] emailSent=false → API skipped SMTP or send failed. Check MAIL_ENABLED, MAIL_FROM, PUBLIC_APP_URL, SMTP_* on backend and Azure log stream.",
+        );
+      }
+      if (created?.emailSent === true) {
+        console.info(
+          "[invitations-debug] emailSent=true → SMTP handshake completed server-side.",
+        );
+      }
+      // #endregion
       setFormEmail("");
       setFormExpires("");
       await refreshInvitations();
