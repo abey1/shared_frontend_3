@@ -90,3 +90,48 @@ export async function apiJson(path, init = {}) {
   }
   return data;
 }
+
+/**
+ * Parses nested Nest `AllExceptionsFilter` bodies: `{ message: string | { message?, ...extras } }`.
+ * Returns human text plus optional extras from structured HttpException payloads.
+ *
+ * @param {unknown} data Response body parsed from `apiFetch` / `apiJson`
+ * @returns {{ text: string, inviteeEmail?: string, tokenMailboxes?: string[], tokenMailboxesMasked?: string[] }}
+ */
+export function unwrapApiErrorPayload(data) {
+  const blob = data?.message;
+  if (typeof blob === 'string') {
+    return { text: blob };
+  }
+  if (blob !== null && typeof blob === "object") {
+    const nested = /** @type {Record<string, unknown>} */ (blob);
+    const text =
+      typeof nested.message === "string"
+        ? nested.message
+        : typeof nested.error === "string"
+          ? nested.error
+          : "Request failed.";
+
+    const inviteeEmail = nested.inviteeEmail;
+    let tokenMailboxes;
+    const rawBoxes = nested.tokenMailboxes;
+    if (Array.isArray(rawBoxes)) {
+      const m = rawBoxes.filter((x) => typeof x === "string");
+      if (m.length) tokenMailboxes = m;
+    }
+    let tokenMailboxesMasked;
+    const rawMasked = nested.tokenMailboxesMasked;
+    if (Array.isArray(rawMasked)) {
+      const m = rawMasked.filter((x) => typeof x === "string");
+      if (m.length) tokenMailboxesMasked = m;
+    }
+
+    return {
+      text,
+      ...(typeof inviteeEmail === "string" ? { inviteeEmail } : {}),
+      ...(tokenMailboxes ? { tokenMailboxes } : {}),
+      ...(tokenMailboxesMasked ? { tokenMailboxesMasked } : {}),
+    };
+  }
+  return { text: "Request failed." };
+}

@@ -1,6 +1,7 @@
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { unwrapApiErrorPayload } from "../api/client.js";
 import { acquireApiAccessToken } from "../api/acquireApiAccessToken.js";
 import {
   acceptInvitationByToken,
@@ -8,6 +9,7 @@ import {
   previewInvitationByToken,
 } from "../api/invitations.js";
 import { loginRequest } from "../auth/msalConfig.js";
+import { stashInvitePathForRedirect } from "../auth/inviteMsalRedirect.js";
 import { Button } from "../components/ui/button.jsx";
 
 function formatExpiry(iso) {
@@ -61,11 +63,13 @@ export default function InviteRespondPage() {
       } catch (e) {
         if (cancelled) return;
         console.warn("[invite-debug] preview failed:", e?.status, e?.data ?? e?.message);
+        const { text } = unwrapApiErrorPayload(e?.data ?? {});
         const msg =
-          e?.data?.message ??
-          e?.message ??
-          (typeof e?.data === "string" ? e.data : null) ??
-          "Could not load this invitation.";
+          text && text !== "Request failed."
+            ? text
+            : e?.message ??
+              (typeof e?.data === "string" ? e.data : null) ??
+              "Could not load this invitation.";
         setPreviewError({ status: e?.status, message: msg });
       }
     })();
@@ -88,14 +92,19 @@ export default function InviteRespondPage() {
       navigate("/rental-account-dashboard", { replace: true });
     } catch (e) {
       console.warn("[invite-debug] accept error:", e?.status, e?.data ?? e?.message);
-      const msg =
-        e?.data?.message ??
-        (Array.isArray(e?.data?.message)
-          ? e.data.message.join(" ")
-          : null) ??
-        e?.message ??
-        "Could not accept invitation.";
-      setNotice(msg);
+      const parsed = unwrapApiErrorPayload(e?.data ?? {});
+      const text =
+        parsed.text && parsed.text !== "Request failed."
+          ? parsed.text
+          : e?.message ?? "Could not accept invitation.";
+      setNotice({
+        text,
+        ...(parsed.inviteeEmail ? { inviteeEmail: parsed.inviteeEmail } : {}),
+        ...(parsed.tokenMailboxes?.length ? { tokenMailboxes: parsed.tokenMailboxes } : {}),
+        ...(parsed.tokenMailboxesMasked?.length
+          ? { tokenMailboxesMasked: parsed.tokenMailboxesMasked }
+          : {}),
+      });
     } finally {
       setBusy(false);
     }
@@ -118,14 +127,19 @@ export default function InviteRespondPage() {
       navigate("/", { replace: true });
     } catch (e) {
       console.warn("[invite-debug] decline error:", e?.status, e?.data ?? e?.message);
-      const msg =
-        e?.data?.message ??
-        (Array.isArray(e?.data?.message)
-          ? e.data.message.join(" ")
-          : null) ??
-        e?.message ??
-        "Could not decline invitation.";
-      setNotice(msg);
+      const parsed = unwrapApiErrorPayload(e?.data ?? {});
+      const text =
+        parsed.text && parsed.text !== "Request failed."
+          ? parsed.text
+          : e?.message ?? "Could not decline invitation.";
+      setNotice({
+        text,
+        ...(parsed.inviteeEmail ? { inviteeEmail: parsed.inviteeEmail } : {}),
+        ...(parsed.tokenMailboxes?.length ? { tokenMailboxes: parsed.tokenMailboxes } : {}),
+        ...(parsed.tokenMailboxesMasked?.length
+          ? { tokenMailboxesMasked: parsed.tokenMailboxesMasked }
+          : {}),
+      });
     } finally {
       setBusy(false);
     }
@@ -134,12 +148,9 @@ export default function InviteRespondPage() {
   const signIn = async () => {
     setNotice(null);
     try {
-      console.log("[invite-debug] signIn → MSAL loginPopup");
-      const res = await instance.loginPopup(loginRequest);
-      if (res?.account) {
-        instance.setActiveAccount(res.account);
-      }
-      console.log("[invite-debug] signIn complete; account=", res?.account?.username ?? "(none)");
+      console.log("[invite-debug] signIn → MSAL loginRedirect (returns to /invite/... after auth)");
+      stashInvitePathForRedirect();
+      await instance.loginRedirect(loginRequest);
     } catch (e) {
       if (
         e?.errorCode === "user_cancelled" ||
@@ -147,7 +158,7 @@ export default function InviteRespondPage() {
       ) {
         return;
       }
-      setNotice(e?.message ?? "Sign-in failed.");
+      setNotice({ text: e?.message ?? "Sign-in failed." });
     }
   };
 
@@ -211,9 +222,27 @@ export default function InviteRespondPage() {
       )}
 
       {notice ? (
-        <p className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950/40 dark:text-red-100">
-          {notice}
-        </p>
+        <div className="mt-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900 dark:border-red-900 dark:bg-red-950/40 dark:text-red-100">
+          <p className="whitespace-pre-wrap break-words">{notice.text}</p>
+          {notice.inviteeEmail ? (
+            <p className="mt-2 text-xs font-medium opacity-90">
+              Invitation email:{" "}
+              <span className="font-mono">{notice.inviteeEmail}</span>
+            </p>
+          ) : null}
+          {notice.tokenMailboxes?.length ? (
+            <p className="mt-2 text-xs opacity-90">
+              Mailboxes inferred from JWT (exact):{" "}
+              <span className="font-mono">{notice.tokenMailboxes.join(", ")}</span>
+            </p>
+          ) : null}
+          {!notice.tokenMailboxes?.length && notice.tokenMailboxesMasked?.length ? (
+            <p className="mt-2 text-xs opacity-90">
+              Mailboxes from your token (masked; update API for full email list):{" "}
+              <span className="font-mono">{notice.tokenMailboxesMasked.join(", ")}</span>
+            </p>
+          ) : null}
+        </div>
       ) : null}
     </div>
   );
