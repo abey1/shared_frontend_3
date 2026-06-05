@@ -22,7 +22,7 @@ import {
   listInvitations,
   patchInvitation,
 } from "../../api/invitations.js";
-import { Button } from "../../components/ui/button.jsx";
+import { Button } from "../../components/ui/button";
 import {
   Card,
   CardContent,
@@ -40,7 +40,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../components/ui/table.jsx";
-import { useAppRoles } from "../../context/AppRolesContext.jsx";
+import { useAppRoles } from "../../context/AppRolesContext";
 import { cn } from "../../lib/cn.js";
 import AdminSectionShell from "./AdminSectionShell.jsx";
 import {

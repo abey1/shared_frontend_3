@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { MsalProvider } from "@azure/msal-react";
 import { EventType, PublicClientApplication } from "@azure/msal-browser";
+import { QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import App from "./App.jsx";
 import { msalConfig } from "./auth/msalConfig";
@@ -11,7 +12,8 @@ import {
   isInviteMsalLoginFlow,
 } from "./auth/inviteMsalRedirect.js";
 import { markOpenAdminAfterNextMe } from "./auth/postLoginAdminLanding.js";
-import { AppRolesProvider } from "./context/AppRolesContext.jsx";
+import { AppRolesProvider } from "./context/AppRolesContext";
+import { queryClient } from "./query/queryClient";
 
 const msalInstance = new PublicClientApplication(msalConfig);
 
@@ -48,9 +50,11 @@ async function bootstrap() {
     <StrictMode>
       <MsalProvider instance={msalInstance}>
         <AppRolesProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
+          <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </QueryClientProvider>
         </AppRolesProvider>
       </MsalProvider>
     </StrictMode>,

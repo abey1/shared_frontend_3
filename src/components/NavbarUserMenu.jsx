@@ -12,7 +12,7 @@ import {
 import { Link as RouterLink } from "react-router-dom";
 import { RxChevronDown } from "react-icons/rx";
 import { logoutRequest } from "../auth/msalConfig";
-import { useAppRoles } from "../context/AppRolesContext.jsx";
+import { useAppRoles } from "../context/AppRolesContext";
 import { useAccountProfile } from "../hooks/useAccountProfile";
 
 function ProfileAvatar({ photoUrl, initials }) {
@@ -38,9 +38,14 @@ function ProfileAvatar({ photoUrl, initials }) {
 export function NavbarUserMenu({ onNavigate }) {
   const { instance } = useMsal();
   const { account, displayName, initials, photoUrl } = useAccountProfile();
-  const { isPlatformAdmin, meStatus, resetSession } = useAppRoles();
+  const { isPlatformAdmin, isBusinessOwner, isBusinessManager, meStatus, resetSession } =
+    useAppRoles();
   const showAdminLink =
     meStatus === "ready" && isPlatformAdmin;
+  const showOwnerLink =
+    meStatus === "ready" && Boolean(isBusinessOwner);
+  const showManagerLink =
+    meStatus === "ready" && Boolean(isBusinessManager);
   const handleSignOut = () => {
     onNavigate?.();
     resetSession();
@@ -80,6 +85,28 @@ export function NavbarUserMenu({ onNavigate }) {
             User page
           </RouterLink>
         </DropdownMenuItem>
+        {showManagerLink ? (
+          <DropdownMenuItem asChild className="cursor-pointer">
+            <RouterLink
+              to="/dashboard_manager"
+              className="w-full"
+              onClick={() => onNavigate?.()}
+            >
+              Manager page
+            </RouterLink>
+          </DropdownMenuItem>
+        ) : null}
+        {showOwnerLink ? (
+          <DropdownMenuItem asChild className="cursor-pointer">
+            <RouterLink
+              to="/dashboard_owner"
+              className="w-full"
+              onClick={() => onNavigate?.()}
+            >
+              Owner page
+            </RouterLink>
+          </DropdownMenuItem>
+        ) : null}
         {showAdminLink ? (
           <DropdownMenuItem asChild className="cursor-pointer">
             <RouterLink

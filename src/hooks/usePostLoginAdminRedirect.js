@@ -5,7 +5,7 @@ import {
   clearOpenAdminAfterNextMe,
   hasOpenAdminAfterNextMeIntent,
 } from "../auth/postLoginAdminLanding.js";
-import { useAppRoles } from "../context/AppRolesContext.jsx";
+import { useAppRoles } from "../context/AppRolesContext";
 
 /**
  * Sends platform admins to `/dashboard` once `/users/me` is ready when a post-login intent

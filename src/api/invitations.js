@@ -54,6 +54,18 @@ export function deleteInvitation(getAccessToken, id) {
 }
 
 /**
+ * Resend outbound invite email for a pending invitation (`POST /invitations/:id/resend`).
+ * @param {() => Promise<string | null | undefined>} getAccessToken
+ * @param {string} id
+ */
+export function resendInvitation(getAccessToken, id) {
+  return apiJson(`/invitations/${encodeURIComponent(id)}/resend`, {
+    method: "POST",
+    getAccessToken,
+  });
+}
+
+/**
  * Public preview (no Bearer). Validates token + pending + not expired.
  * @param {string} invitationToken invitation_token GUID from email link
  */

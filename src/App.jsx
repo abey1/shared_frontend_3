@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout.jsx";
+import OwnerDashboardLayout from "./layouts/OwnerDashboardLayout.jsx";
 import Home from "./pages/Home.jsx";
 import ContactCompany from "./pages/contact-company.jsx";
 import FAQs from "./pages/faqs.jsx";
@@ -26,9 +27,19 @@ import AdminBusinessesPage from "./pages/admin/businesses-page.jsx";
 import AdminDashboardPage from "./pages/admin/dashboard-page.jsx";
 import AdminRevenueOverviewPage from "./pages/admin/revenue-overview-page.jsx";
 import AdminUsersPage from "./pages/admin/users-page.jsx";
+import ManagerDashboardLayout from "./layouts/ManagerDashboardLayout.jsx";
+import ManagerDashboardHome from "./pages/manager/ManagerDashboardHome.jsx";
+import ManagerToolsPage from "./pages/manager/ManagerToolsPage.jsx";
+import ManagerPlaceholderPage from "./pages/manager/ManagerPlaceholderPage.jsx";
 import { PostLoginAdminRedirect } from "./components/PostLoginAdminRedirect.jsx";
 import { BackendUserSync } from "./components/BackendUserSync.jsx";
 import InviteRespondPage from "./pages/invite-respond.jsx";
+import OwnerBusinessPage from "./pages/owner/OwnerBusinessPage.tsx";
+import OwnerCustomersPage from "./pages/owner/OwnerCustomersPage.tsx";
+import OwnerInvitationsPage from "./pages/owner/OwnerInvitationsPage.tsx";
+import OwnerRentalsPage from "./pages/owner/OwnerRentalsPage.tsx";
+import OwnerRevenuePage from "./pages/owner/OwnerRevenuePage.tsx";
+import OwnerSettingsPage from "./pages/owner/OwnerSettingsPage.tsx";
 
 const AdminInvitationsPage = lazy(() =>
   import("./pages/admin/invitations-page.jsx"),
@@ -91,6 +102,55 @@ export default function App() {
                 <AdminInvitationsPage />
               </Suspense>
             }
+          />
+        </Route>
+        <Route path="/dashboard_owner" element={<OwnerDashboardLayout />}>
+          <Route index element={<Navigate to="business" replace />} />
+          <Route path="business" element={<OwnerBusinessPage />} />
+          <Route path="revenue" element={<OwnerRevenuePage />} />
+          <Route path="rentals" element={<OwnerRentalsPage />} />
+          <Route path="invitations" element={<OwnerInvitationsPage />} />
+          <Route path="customers" element={<OwnerCustomersPage />} />
+          <Route path="settings" element={<OwnerSettingsPage />} />
+        </Route>
+        <Route path="/dashboard_manager" element={<ManagerDashboardLayout />}>
+          <Route index element={<ManagerDashboardHome />} />
+          <Route path="tools" element={<ManagerToolsPage />} />
+          <Route
+            path="categories"
+            element={<ManagerPlaceholderPage segment="categories" />}
+          />
+          <Route
+            path="tool-requests"
+            element={<ManagerPlaceholderPage segment="tool-requests" />}
+          />
+          <Route
+            path="assignments"
+            element={<ManagerPlaceholderPage segment="assignments" />}
+          />
+          <Route
+            path="employees"
+            element={<ManagerPlaceholderPage segment="employees" />}
+          />
+          <Route
+            path="activity-logs"
+            element={<ManagerPlaceholderPage segment="activity-logs" />}
+          />
+          <Route
+            path="reports"
+            element={<ManagerPlaceholderPage segment="reports" />}
+          />
+          <Route
+            path="notifications"
+            element={<ManagerPlaceholderPage segment="notifications" />}
+          />
+          <Route
+            path="messages"
+            element={<ManagerPlaceholderPage segment="messages" />}
+          />
+          <Route
+            path="settings"
+            element={<ManagerPlaceholderPage segment="settings" />}
           />
         </Route>
         <Route path="/admin" element={<Navigate to="/dashboard" replace />} />

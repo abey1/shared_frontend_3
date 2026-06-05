@@ -10,7 +10,7 @@ import {
 } from "../api/invitations.js";
 import { loginRequest } from "../auth/msalConfig.js";
 import { stashInvitePathForRedirect } from "../auth/inviteMsalRedirect.js";
-import { Button } from "../components/ui/button.jsx";
+import { Button } from "../components/ui/button";
 
 function formatExpiry(iso) {
   try {

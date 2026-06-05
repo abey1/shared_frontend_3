@@ -1,15 +1,20 @@
 import { useIsAuthenticated, useMsal } from "@azure/msal-react";
 import {
-  CalendarClock,
+  BarChart3,
+  Bell,
   ChevronLeft,
   ChevronRight,
-  DollarSign,
+  ClipboardList,
   LayoutDashboard,
-  MailPlus,
+  Layers,
+  MessageSquare,
   Menu,
   PanelLeftClose,
-  Store,
+  ScrollText,
+  Settings,
+  UserCheck,
   Users,
+  Wrench,
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -19,37 +24,60 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { logoutRequest } from "../auth/msalConfig";
+import { Toaster } from "sonner";
+import { logoutRequest } from "../auth/msalConfig.js";
 import { useAppRoles } from "../context/AppRolesContext";
+import { ManagerWorkspaceProvider, useManagerWorkspace } from "../context/ManagerWorkspaceContext.jsx";
 import { cn } from "../lib/cn.js";
 import { Button } from "../components/ui/button";
 
 const NAV_ITEMS = [
-  { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/businesses", label: "Businesses", icon: Store },
-  { to: "/users", label: "Users", icon: Users },
-  { to: "/active-rentals", label: "Active Rentals", icon: CalendarClock },
+  { to: "/dashboard_manager", label: "Dashboard", icon: LayoutDashboard, end: true },
+  { to: "/dashboard_manager/tools", label: "Tools", icon: Wrench },
+  { to: "/dashboard_manager/categories", label: "Categories", icon: Layers },
   {
-    to: "/revenue-overview",
-    label: "Revenue Overview",
-    icon: DollarSign,
+    to: "/dashboard_manager/tool-requests",
+    label: "Tool Requests",
+    icon: ClipboardList,
   },
-  { to: "/invitations", label: "Invitations", icon: MailPlus },
+  {
+    to: "/dashboard_manager/assignments",
+    label: "Assignments",
+    icon: UserCheck,
+  },
+  { to: "/dashboard_manager/employees", label: "Employees", icon: Users },
+  {
+    to: "/dashboard_manager/activity-logs",
+    label: "Activity Logs",
+    icon: ScrollText,
+  },
+  { to: "/dashboard_manager/reports", label: "Reports", icon: BarChart3 },
+  {
+    to: "/dashboard_manager/notifications",
+    label: "Notifications",
+    icon: Bell,
+  },
+  { to: "/dashboard_manager/messages", label: "Messages", icon: MessageSquare },
+  { to: "/dashboard_manager/settings", label: "Settings", icon: Settings },
 ];
 
-/** Human-readable breadcrumb derived from pathname (matches Outlet page titles). */
 const HEADER_TITLE = {
-  "/dashboard": "Dashboard",
-  "/businesses": "Businesses",
-  "/users": "Users",
-  "/active-rentals": "Active Rentals",
-  "/revenue-overview": "Revenue Overview",
-  "/invitations": "Invitations",
+  "/dashboard_manager": "Dashboard",
+  "/dashboard_manager/tools": "Tools",
+  "/dashboard_manager/categories": "Categories",
+  "/dashboard_manager/tool-requests": "Tool Requests",
+  "/dashboard_manager/assignments": "Assignments",
+  "/dashboard_manager/employees": "Employees",
+  "/dashboard_manager/activity-logs": "Activity Logs",
+  "/dashboard_manager/reports": "Reports",
+  "/dashboard_manager/notifications": "Notifications",
+  "/dashboard_manager/messages": "Messages",
+  "/dashboard_manager/settings": "Settings",
 };
 
-export default function AdminDashboardLayout() {
-  const isAuthenticated = useIsAuthenticated();
-  const { isPlatformAdmin, meStatus, resetSession } = useAppRoles();
+function ManagerDashboardShell() {
+  const ws = useManagerWorkspace();
+  const { resetSession } = useAppRoles();
   const location = useLocation();
   const navigate = useNavigate();
   const { instance, accounts } = useMsal();
@@ -61,7 +89,7 @@ export default function AdminDashboardLayout() {
   }, [location.pathname]);
 
   const headerTitle =
-    HEADER_TITLE[location.pathname] ?? "Dashboard";
+    HEADER_TITLE[location.pathname] ?? "Manager workspace";
 
   const account = instance.getActiveAccount() ?? accounts[0] ?? null;
 
@@ -73,7 +101,7 @@ export default function AdminDashboardLayout() {
     });
   }, [account, instance, resetSession]);
 
-  const SidebarNav = ({ onNavigate } = {}) => (
+  const SidebarNav = ({ onNavigate }) => (
     <>
       <div
         className={cn(
@@ -83,7 +111,7 @@ export default function AdminDashboardLayout() {
       >
         {!sidebarCollapsed && (
           <span className="truncate pl-2 text-base font-semibold tracking-tight text-text-primary">
-            Admin Page
+            Manager Page
           </span>
         )}
         <Button
@@ -91,9 +119,7 @@ export default function AdminDashboardLayout() {
           variant="ghost"
           size="icon"
           className={cn(sidebarCollapsed && "mx-auto shrink-0")}
-          title={
-            sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"
-          }
+          title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           aria-expanded={!sidebarCollapsed}
           onClick={() => setSidebarCollapsed((c) => !c)}
         >
@@ -112,13 +138,13 @@ export default function AdminDashboardLayout() {
 
       <nav
         className="flex flex-1 flex-col gap-1 overflow-y-auto p-2 pb-24"
-        aria-label="Admin"
+        aria-label="Manager"
       >
-        {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
+        {NAV_ITEMS.map(({ to, label, icon: Icon, end }) => (
           <NavLink
             key={to}
             to={to}
-            end={to === "/dashboard"}
+            end={Boolean(end)}
             title={sidebarCollapsed ? label : undefined}
             onClick={() => onNavigate?.()}
             className={({ isActive }) =>
@@ -148,6 +174,123 @@ export default function AdminDashboardLayout() {
     ? "md:w-[4.25rem]"
     : "md:w-64";
 
+  return (
+    <div className="flex min-h-svh w-full bg-background-primary text-text-primary">
+      <Toaster position="top-center" richColors closeButton />
+
+      {mobileDrawerOpen ? (
+        <button
+          type="button"
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[1px] transition-opacity md:hidden"
+          aria-label="Close menu"
+          onClick={() => setMobileDrawerOpen(false)}
+        />
+      ) : null}
+
+      <aside
+        id="manager-sidebar-nav"
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 flex flex-col overflow-hidden border-border-primary bg-neutral-950/[0.02] backdrop-blur-sm transition-all duration-300 ease-in-out dark:bg-neutral-950/40 md:sticky md:top-0 md:z-30 md:h-svh md:shrink-0 md:border-r",
+          sidebarWidthClass,
+          "border-r md:translate-x-0",
+          "w-[min(18rem,85vw)] max-w-none md:max-w-none",
+          mobileDrawerOpen
+            ? "translate-x-0 shadow-xl"
+            : "-translate-x-full md:translate-x-0 md:shadow-none",
+        )}
+      >
+        <SidebarNav onNavigate={() => setMobileDrawerOpen(false)} />
+      </aside>
+
+      <div className="flex min-h-svh min-w-0 flex-1 flex-col">
+        <header className="sticky top-0 z-20 flex min-h-[3.75rem] flex-wrap items-center justify-between gap-3 border-b border-border-primary bg-background-primary/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background-primary/75 md:px-6">
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setMobileDrawerOpen((o) => !o)}
+              aria-expanded={mobileDrawerOpen}
+              aria-controls="manager-sidebar-nav"
+              title="Open navigation"
+            >
+              <Menu className="size-5" aria-hidden />
+            </Button>
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="hidden shrink-0 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary md:flex md:items-center md:gap-1"
+              title="Back to site home"
+            >
+              <ChevronLeft className="size-4" aria-hidden />
+              Site
+            </button>
+            <div className="min-w-0 border-l border-border-primary pl-3 md:ml-2">
+              <p className="truncate text-[0.6875rem] font-medium uppercase tracking-wider text-text-secondary">
+                Manager
+              </p>
+              <h2 className="truncate text-lg font-semibold md:text-xl">
+                {headerTitle}
+              </h2>
+            </div>
+          </div>
+
+          <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
+            {ws.managedBusinesses.length > 1 && ws.selectedBusiness ? (
+              <label className="flex items-center gap-2 text-xs text-text-secondary md:text-sm">
+                <span className="hidden sm:inline">Organization</span>
+                <select
+                  className="h-9 max-w-[14rem] rounded-md border border-border-primary bg-background-primary px-2 text-sm text-text-primary"
+                  value={ws.selectedBusiness.id}
+                  onChange={(e) => ws.setSelectedBusinessId(e.target.value)}
+                >
+                  {ws.managedBusinesses.map((b) => {
+                    const label =
+                      (b.name && b.name.trim()) || b.legalName || b.id;
+                    return (
+                      <option key={b.id} value={b.id}>
+                        {label}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
+            ) : null}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="hidden sm:inline-flex"
+              onClick={() => navigate("/")}
+            >
+              View site
+              <ChevronRight className="size-4 opacity-70" aria-hidden />
+            </Button>
+            <Button type="button" variant="ghost" size="sm" onClick={signOut}>
+              Sign out
+            </Button>
+          </div>
+        </header>
+
+        <main className="flex flex-1 flex-col overflow-auto bg-neutral-950/[0.015] dark:bg-neutral-950/20">
+          {!ws.isLoading && ws.managedBusinesses.length === 0 ? (
+            <div className="border-b border-amber-500/30 bg-amber-50 px-6 py-3 text-sm text-amber-950 dark:border-amber-500/25 dark:bg-amber-950/30 dark:text-amber-50">
+              You do not belong to any organization with manager permissions yet.
+              Ask an owner to invite you as a manager, or switch accounts.
+            </div>
+          ) : null}
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+}
+
+export default function ManagerDashboardLayout() {
+  const isAuthenticated = useIsAuthenticated();
+  const { isBusinessManager, meStatus } = useAppRoles();
+
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
   }
@@ -166,95 +309,13 @@ export default function AdminDashboardLayout() {
     );
   }
 
-  if (meStatus === "error" || !isPlatformAdmin) {
+  if (meStatus === "error" || !isBusinessManager) {
     return <Navigate to="/" replace />;
   }
 
   return (
-    <div className="flex min-h-svh w-full bg-background-primary text-text-primary">
-      {/* Mobile drawer backdrop */}
-      {mobileDrawerOpen && (
-        <button
-          type="button"
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-[1px] transition-opacity md:hidden"
-          aria-label="Close menu"
-          onClick={() => setMobileDrawerOpen(false)}
-        />
-      )}
-
-      {/* Sidebar: drawer on mobile, column on desktop */}
-      <aside
-        id="admin-sidebar-nav"
-        className={cn(
-          "fixed inset-y-0 left-0 z-50 flex flex-col overflow-hidden border-border-primary bg-neutral-950/[0.02] backdrop-blur-sm transition-all duration-300 ease-in-out dark:bg-neutral-950/40 md:sticky md:top-0 md:z-30 md:h-svh md:shrink-0 md:border-r",
-          sidebarWidthClass,
-          "border-r md:translate-x-0",
-          "w-[min(18rem,85vw)] max-w-none md:max-w-none",
-          mobileDrawerOpen
-            ? "translate-x-0 shadow-xl"
-            : "-translate-x-full md:translate-x-0 md:shadow-none",
-        )}
-      >
-        <SidebarNav onNavigate={() => setMobileDrawerOpen(false)} />
-      </aside>
-
-      <div className="flex min-h-svh min-w-0 flex-1 flex-col">
-        {/* Top header */}
-        <header className="sticky top-0 z-20 flex min-h-[3.75rem] items-center justify-between gap-4 border-b border-border-primary bg-background-primary/95 px-4 backdrop-blur supports-[backdrop-filter]:bg-background-primary/75 md:px-6">
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              className="md:hidden"
-              onClick={() => setMobileDrawerOpen((o) => !o)}
-              aria-expanded={mobileDrawerOpen}
-              aria-controls="admin-sidebar-nav"
-              title="Open navigation"
-            >
-              <Menu className="size-5" aria-hidden />
-            </Button>
-            <button
-              type="button"
-              onClick={() => navigate("/")}
-              className="hidden shrink-0 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary md:flex md:items-center md:gap-1"
-              title="Back to site home"
-            >
-              <ChevronLeft className="size-4" aria-hidden />
-              Site
-            </button>
-            <div className="min-w-0 border-l border-border-primary pl-3 md:ml-2">
-              <p className="truncate text-[0.6875rem] font-medium uppercase tracking-wider text-text-secondary">
-                Admin
-              </p>
-              <h2 className="truncate text-lg font-semibold md:text-xl">
-                {headerTitle}
-              </h2>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="hidden sm:inline-flex"
-              onClick={() => navigate("/")}
-            >
-              View site
-              <ChevronRight className="size-4 opacity-70" aria-hidden />
-            </Button>
-            <Button type="button" variant="ghost" size="sm" onClick={signOut}>
-              Sign out
-            </Button>
-          </div>
-        </header>
-
-        {/* Routed main content */}
-        <main className="flex flex-1 flex-col overflow-auto bg-neutral-950/[0.015] dark:bg-neutral-950/20">
-          <Outlet />
-        </main>
-      </div>
-    </div>
+    <ManagerWorkspaceProvider>
+      <ManagerDashboardShell />
+    </ManagerWorkspaceProvider>
   );
 }

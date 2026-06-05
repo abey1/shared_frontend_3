@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { acquireApiAccessToken } from "../api/acquireApiAccessToken";
 import { fetchCurrentUser } from "../api/usersMe";
 import { apiAccessTokenRequest } from "../auth/msalConfig";
-import { useAppRoles } from "../context/AppRolesContext.jsx";
+import { useAppRoles } from "../context/AppRolesContext";
 
 /**
  * After Entra login, calls `GET /users/me` with an API access token so the Nest API
